@@ -1,0 +1,8 @@
+[profile.default]
+libs = ["gitmodules"]
+
+remappings = [
+    'forge-std/=gitmodules/forge-std/src/',
+    "@openzeppelin/contracts/=gitmodules/openzeppelin-contracts/contracts/",
+]
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
