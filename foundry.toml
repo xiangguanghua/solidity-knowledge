@@ -1,8 +1,12 @@
 [profile.default]
+src = "contracts"
+test = "test"
 libs = ["gitmodules"]
 
 remappings = [
-    'forge-std/=gitmodules/forge-std/src/',
+    "forge-std/=gitmodules/forge-std/src/",
     "@openzeppelin/contracts/=gitmodules/openzeppelin-contracts/contracts/",
+    "advance/=contracts/advance/",
+    "high/=contracts/high/",
 ]
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

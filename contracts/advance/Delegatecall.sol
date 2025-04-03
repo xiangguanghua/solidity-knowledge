@@ -21,26 +21,30 @@ contract Proxy {
 
     address public implementation;
     address public admin;
+    bytes public data;
 
     constructor(address _impl) {
         admin = msg.sender;
         implementation = _impl;
     }
 
-    event DelegateResponse(bool success, bytes data);
-    event CallResponse(bool success, bytes data);
-
     function upgradeTo(address _newImpl) external {
         require(msg.sender == admin, "Not admin");
         implementation = _newImpl;
     }
 
+    function delegatecall(address _impl, bytes calldata _data) external {
+        data = _data;
+        implementation = _impl;
+        _delegatecall();
+    }
+
     function _delegatecall() internal {
-        (bool success, bytes memory data) = implementation.delegatecall(msg.data);
-        emit DelegateResponse(success, data);
+        if (data.length == 0) data = msg.data;
+        (bool success, bytes memory _data) = implementation.delegatecall(data);
         if (!success) {
             assembly {
-                revert(add(data, 32), mload(data))
+                revert(add(_data, 32), mload(_data))
             }
         }
         require(success, "Delegatecall failed");
